@@ -72,3 +72,4 @@ npm start
 - Press `a` to open on Android.
 - Press `i` to open on iOS simulator.
 - Press `w` to open on Web.
+# madupay-mobile
