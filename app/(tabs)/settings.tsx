@@ -6,10 +6,10 @@ import * as LocalAuthentication from "expo-local-authentication";
 import * as SecureStore from "expo-secure-store";
 import { ScreenWrapper } from "../../src/components/ScreenWrapper";
 import { Header } from "../../src/components/Header";
-import { Card } from "../../src/components/Card";
 import { Button } from "../../src/components/Button";
 import { useAuth } from "../../src/hooks/useAuth";
 import { registerForPushNotificationsAsync } from "../../src/services/notifications";
+import { colors } from "../../src/theme/colors";
 
 const BIOMETRIC_PREF_KEY = "madupay_biometrics_enabled";
 const PUSH_PREF_KEY = "madupay_push_enabled";
@@ -129,19 +129,19 @@ export default function SettingsScreen() {
 
       {/* Security & Authentication */}
       <View className="mb-5">
-        <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2.5 px-1">
+        <Text className="text-ditto-slate text-xs font-bold uppercase tracking-wider mb-2.5 px-1">
           Security & Access
         </Text>
-        <Card className="p-3 bg-slate-800/60 border border-slate-700/50">
+        <View className="p-3 bg-ditto-meadow border border-ditto-outline/10 rounded-[24px]">
           {/* Biometrics Toggle */}
-          <View className="flex-row items-center justify-between p-2.5 border-b border-slate-800">
+          <View className="flex-row items-center justify-between p-2.5 border-b border-ditto-outline/10">
             <View className="flex-row items-center flex-1 mr-3">
-              <View className="w-9 h-9 rounded-xl bg-indigo-500/15 items-center justify-center mr-3">
-                <Ionicons name="finger-print" size={20} color="#818CF8" />
+              <View className="w-9 h-9 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="finger-print" size={20} color={colors.ditto.ink} />
               </View>
               <View className="flex-1">
-                <Text className="text-white text-xs font-bold">{biometricType}</Text>
-                <Text className="text-slate-400 text-[11px] mt-0.5">
+                <Text className="text-ditto-ink text-xs font-bold">{biometricType}</Text>
+                <Text className="text-ditto-slate text-[11px] mt-0.5">
                   Unlock app and confirm payments quickly
                 </Text>
               </View>
@@ -149,8 +149,8 @@ export default function SettingsScreen() {
             <Switch
               value={biometricsEnabled}
               onValueChange={handleToggleBiometrics}
-              trackColor={{ false: "#334155", true: "#6366F1" }}
-              thumbColor={biometricsEnabled ? "#FFFFFF" : "#94A3B8"}
+              trackColor={{ false: colors.ditto.meadowHigh, true: colors.ditto.ink }}
+              thumbColor={biometricsEnabled ? colors.ditto.gold : "#FFFFFF"}
               disabled={!hasBiometricHardware}
             />
           </View>
@@ -158,12 +158,12 @@ export default function SettingsScreen() {
           {/* Push Notifications Toggle */}
           <View className="flex-row items-center justify-between p-2.5">
             <View className="flex-row items-center flex-1 mr-3">
-              <View className="w-9 h-9 rounded-xl bg-indigo-500/15 items-center justify-center mr-3">
-                <Ionicons name="notifications" size={20} color="#818CF8" />
+              <View className="w-9 h-9 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="notifications" size={20} color={colors.ditto.ink} />
               </View>
               <View className="flex-1">
-                <Text className="text-white text-xs font-bold">Push Notifications</Text>
-                <Text className="text-slate-400 text-[11px] mt-0.5">
+                <Text className="text-ditto-ink text-xs font-bold">Push Notifications</Text>
+                <Text className="text-ditto-slate text-[11px] mt-0.5">
                   Instant transaction updates and security alerts
                 </Text>
               </View>
@@ -171,67 +171,67 @@ export default function SettingsScreen() {
             <Switch
               value={pushEnabled}
               onValueChange={handleTogglePush}
-              trackColor={{ false: "#334155", true: "#6366F1" }}
-              thumbColor={pushEnabled ? "#FFFFFF" : "#94A3B8"}
+              trackColor={{ false: colors.ditto.meadowHigh, true: colors.ditto.ink }}
+              thumbColor={pushEnabled ? colors.ditto.gold : "#FFFFFF"}
             />
           </View>
-        </Card>
+        </View>
       </View>
 
       {/* Preferences & Appearance */}
       <View className="mb-5">
-        <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2.5 px-1">
+        <Text className="text-ditto-slate text-xs font-bold uppercase tracking-wider mb-2.5 px-1">
           Preferences
         </Text>
-        <Card className="p-2 bg-slate-800/60 border border-slate-700/50">
-          <View className="flex-row items-center justify-between p-3 border-b border-slate-800">
+        <View className="p-2 bg-ditto-meadow border border-ditto-outline/10 rounded-[24px]">
+          <View className="flex-row items-center justify-between p-3 border-b border-ditto-outline/10">
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-lg bg-indigo-500/10 items-center justify-center mr-3">
-                <Ionicons name="moon-outline" size={16} color="#818CF8" />
+              <View className="w-8 h-8 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="color-palette-outline" size={16} color={colors.ditto.ink} />
               </View>
-              <Text className="text-white text-xs font-medium">Dark Theme</Text>
+              <Text className="text-ditto-ink text-xs font-bold">Theme Style</Text>
             </View>
-            <Text className="text-indigo-400 text-xs font-bold">Enabled</Text>
+            <Text className="text-ditto-ink text-xs font-bold">Ditto Canvas</Text>
           </View>
 
           <View className="flex-row items-center justify-between p-3">
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-lg bg-indigo-500/10 items-center justify-center mr-3">
-                <Ionicons name="cash-outline" size={16} color="#818CF8" />
+              <View className="w-8 h-8 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="cash-outline" size={16} color={colors.ditto.ink} />
               </View>
-              <Text className="text-white text-xs font-medium">Default Currency</Text>
+              <Text className="text-ditto-ink text-xs font-bold">Default Currency</Text>
             </View>
-            <Text className="text-slate-300 text-xs font-mono font-bold">NGN (₦)</Text>
+            <Text className="text-ditto-ink text-xs font-mono font-bold">NGN (₦)</Text>
           </View>
-        </Card>
+        </View>
       </View>
 
       {/* Application Info */}
       <View className="mb-6">
-        <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2.5 px-1">
+        <Text className="text-ditto-slate text-xs font-bold uppercase tracking-wider mb-2.5 px-1">
           About MaduPay
         </Text>
-        <Card className="p-4 bg-slate-800/60 border border-slate-700/50">
-          <View className="flex-row justify-between py-1.5 border-b border-slate-800">
-            <Text className="text-slate-400 text-xs">App Name</Text>
-            <Text className="text-white text-xs font-bold">MaduPay Mobile</Text>
+        <View className="p-4 bg-ditto-meadow border border-ditto-outline/10 rounded-[24px]">
+          <View className="flex-row justify-between py-1.5 border-b border-ditto-outline/10">
+            <Text className="text-ditto-slate text-xs font-medium">App Name</Text>
+            <Text className="text-ditto-ink text-xs font-bold">MaduPay Mobile</Text>
           </View>
 
-          <View className="flex-row justify-between py-1.5 border-b border-slate-800">
-            <Text className="text-slate-400 text-xs">Version</Text>
-            <Text className="text-slate-300 text-xs font-mono">1.0.0</Text>
+          <View className="flex-row justify-between py-1.5 border-b border-ditto-outline/10">
+            <Text className="text-ditto-slate text-xs font-medium">Version</Text>
+            <Text className="text-ditto-slate text-xs font-mono font-semibold">1.0.0</Text>
           </View>
 
-          <View className="flex-row justify-between py-1.5 border-b border-slate-800">
-            <Text className="text-slate-400 text-xs">Build Environment</Text>
-            <Text className="text-emerald-400 text-xs font-bold">Production</Text>
+          <View className="flex-row justify-between py-1.5 border-b border-ditto-outline/10">
+            <Text className="text-ditto-slate text-xs font-medium">Build Environment</Text>
+            <Text className="text-emerald-700 text-xs font-bold">Production</Text>
           </View>
 
           <View className="flex-row justify-between py-1.5">
-            <Text className="text-slate-400 text-xs">Security Standard</Text>
-            <Text className="text-indigo-300 text-xs">AES-256 GCM / TLS 1.3</Text>
+            <Text className="text-ditto-slate text-xs font-medium">Security Standard</Text>
+            <Text className="text-ditto-ink text-xs font-bold">AES-256 GCM / TLS 1.3</Text>
           </View>
-        </Card>
+        </View>
       </View>
 
       {/* Sign Out */}

@@ -2,6 +2,7 @@ import React from "react";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Platform } from "react-native";
+import { colors } from "../../src/theme/colors";
 
 export default function TabLayout() {
   return (
@@ -9,15 +10,15 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: "#0F172A",
-          borderTopColor: "#1E293B",
+          backgroundColor: colors.ditto.meadow,
+          borderTopColor: "rgba(34, 26, 80, 0.08)",
           borderTopWidth: 1,
           height: Platform.OS === "ios" ? 88 : 65,
           paddingTop: 8,
           paddingBottom: Platform.OS === "ios" ? 28 : 10,
         },
-        tabBarActiveTintColor: "#818CF8",
-        tabBarInactiveTintColor: "#64748B",
+        tabBarActiveTintColor: colors.ditto.ink,
+        tabBarInactiveTintColor: colors.ditto.slate,
         tabBarLabelStyle: {
           fontSize: 11,
           fontWeight: "600",

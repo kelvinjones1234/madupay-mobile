@@ -12,11 +12,11 @@ import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "../../src/components/ScreenWrapper";
 import { Header } from "../../src/components/Header";
-import { Card } from "../../src/components/Card";
 import { Button } from "../../src/components/Button";
 import { useTransactions } from "../../src/hooks/useTransactions";
 import { TransactionDetail } from "../../src/types/transactions";
 import { formatNgnCurrency, formatDate } from "../../src/utils/formatters";
+import { colors } from "../../src/theme/colors";
 
 export default function TransactionsScreen() {
   const router = useRouter();
@@ -43,17 +43,17 @@ export default function TransactionsScreen() {
     return (
       <TouchableOpacity
         onPress={() => router.push(`/transactions/${item.id}` as any)}
-        activeOpacity={0.7}
-        className="flex-row items-center justify-between bg-slate-800/50 border border-slate-700/50 rounded-2xl p-4 mb-2.5"
+        activeOpacity={0.75}
+        className="flex-row items-center justify-between bg-ditto-meadow border border-ditto-outline/10 rounded-[20px] p-4 mb-2.5"
       >
         <View className="flex-row items-center flex-1 mr-3">
           <View
-            className={`w-10 h-10 rounded-xl items-center justify-center mr-3 ${
+            className={`w-10 h-10 rounded-full items-center justify-center mr-3 ${
               isSuccess
-                ? "bg-emerald-500/10"
+                ? "bg-emerald-100"
                 : isPending
-                ? "bg-amber-500/10"
-                : "bg-rose-500/10"
+                ? "bg-amber-100"
+                : "bg-rose-100"
             }`}
           >
             <Ionicons
@@ -65,43 +65,43 @@ export default function TransactionsScreen() {
                   : "alert-circle"
               }
               size={20}
-              color={isSuccess ? "#34D399" : isPending ? "#FBBF24" : "#F43F5E"}
+              color={isSuccess ? "#059669" : isPending ? "#D97706" : "#E11D48"}
             />
           </View>
 
           <View className="flex-1">
-            <Text className="text-white font-semibold text-sm" numberOfLines={1}>
+            <Text className="text-ditto-ink font-bold text-sm" numberOfLines={1}>
               {item.type}
             </Text>
-            <Text className="text-slate-400 text-xs mt-0.5" numberOfLines={1}>
+            <Text className="text-ditto-slate text-xs mt-0.5" numberOfLines={1}>
               {item.recipient || item.reference}
             </Text>
-            <Text className="text-slate-500 text-[10px] mt-0.5">
+            <Text className="text-ditto-slate/70 text-[10px] mt-0.5">
               {formatDate(item.createdAt)}
             </Text>
           </View>
         </View>
 
         <View className="items-end">
-          <Text className="text-white font-bold text-sm">
+          <Text className="text-ditto-ink font-extrabold text-sm">
             {formatNgnCurrency(item.amount)}
           </Text>
           <View
-            className={`mt-1 px-2 py-0.5 rounded-full ${
+            className={`mt-1 px-2.5 py-0.5 rounded-full ${
               isSuccess
-                ? "bg-emerald-500/15"
+                ? "bg-emerald-100"
                 : isPending
-                ? "bg-amber-500/15"
-                : "bg-rose-500/15"
+                ? "bg-amber-100"
+                : "bg-rose-100"
             }`}
           >
             <Text
               className={`text-[10px] font-bold ${
                 isSuccess
-                  ? "text-emerald-400"
+                  ? "text-emerald-800"
                   : isPending
-                  ? "text-amber-400"
-                  : "text-rose-400"
+                  ? "text-amber-800"
+                  : "text-rose-800"
               }`}
             >
               {item.status}
@@ -116,21 +116,22 @@ export default function TransactionsScreen() {
     <ScreenWrapper className="py-2">
       <Header title="Transactions" />
 
-      {/* Filter Chips */}
-      <View className="flex-row bg-slate-800 rounded-xl p-1 border border-slate-700 mb-4">
+      {/* Filter Chips - Tone Based Pills */}
+      <View className="flex-row bg-ditto-meadow rounded-full p-1 border border-ditto-outline/10 mb-4">
         {(["ALL", "SUCCESS", "PENDING", "FAILED"] as const).map((filter) => {
           const isActive = selectedFilter === filter;
           return (
             <TouchableOpacity
               key={filter}
               onPress={() => setSelectedFilter(filter)}
-              className={`flex-1 py-1.5 items-center rounded-lg ${
-                isActive ? "bg-indigo-600 shadow-sm" : "bg-transparent"
+              className={`flex-1 py-2 items-center rounded-full ${
+                isActive ? "bg-ditto-ink shadow-xs" : "bg-transparent"
               }`}
+              activeOpacity={0.8}
             >
               <Text
-                className={`text-xs font-semibold ${
-                  isActive ? "text-white" : "text-slate-400"
+                className={`text-xs font-bold ${
+                  isActive ? "text-white" : "text-ditto-slate"
                 }`}
               >
                 {filter}
@@ -142,19 +143,19 @@ export default function TransactionsScreen() {
 
       {/* Transactions List */}
       {isLoading ? (
-        <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#818CF8" />
-          <Text className="text-slate-400 text-xs mt-3">Loading transactions...</Text>
+        <View className="flex-1 items-center justify-center py-16">
+          <ActivityIndicator size="large" color={colors.ditto.ink} />
+          <Text className="text-ditto-slate text-xs mt-3 font-medium">Loading transactions...</Text>
         </View>
       ) : transactions.length === 0 ? (
-        <View className="flex-1 items-center justify-center py-12">
-          <View className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 items-center justify-center mb-3">
-            <Ionicons name="receipt-outline" size={32} color="#64748B" />
+        <View className="flex-1 items-center justify-center py-16 px-4">
+          <View className="w-16 h-16 rounded-full bg-ditto-meadow border border-ditto-outline/10 items-center justify-center mb-3">
+            <Ionicons name="receipt-outline" size={30} color={colors.ditto.slate} />
           </View>
-          <Text className="text-white font-bold text-base mb-1">
+          <Text className="text-ditto-ink font-bold text-base mb-1">
             No transactions found
           </Text>
-          <Text className="text-slate-400 text-xs text-center px-8">
+          <Text className="text-ditto-slate text-xs text-center px-8">
             {selectedFilter === "ALL"
               ? "You haven't performed any transactions yet. Your bill purchases will appear here."
               : `No transactions matching "${selectedFilter}" status.`}
@@ -179,44 +180,44 @@ export default function TransactionsScreen() {
         transparent
         onRequestClose={() => setSelectedTx(null)}
       >
-        <View className="flex-1 justify-end bg-black/70">
-          <View className="bg-slate-900 border-t border-slate-700 rounded-t-3xl p-6">
+        <View className="flex-1 justify-end bg-black/50">
+          <View className="bg-ditto-canvas border-t border-ditto-outline/15 rounded-t-[2.5rem] p-6">
             <View className="flex-row items-center justify-between mb-4">
-              <Text className="text-white text-lg font-bold">Transaction Receipt</Text>
+              <Text className="text-ditto-ink text-lg font-extrabold">Transaction Receipt</Text>
               <TouchableOpacity
                 onPress={() => setSelectedTx(null)}
-                className="w-8 h-8 rounded-full bg-slate-800 items-center justify-center"
+                className="w-8 h-8 rounded-full bg-ditto-meadow items-center justify-center"
               >
-                <Ionicons name="close" size={20} color="#94A3B8" />
+                <Ionicons name="close" size={18} color={colors.ditto.ink} />
               </TouchableOpacity>
             </View>
 
             {selectedTx && (
               <View>
                 {/* Status and Amount Banner */}
-                <View className="items-center bg-slate-800/60 border border-slate-700/60 rounded-2xl p-4 mb-4">
-                  <Text className="text-slate-400 text-xs uppercase font-medium">
+                <View className="items-center bg-ditto-meadow border border-ditto-outline/10 rounded-[20px] p-5 mb-4">
+                  <Text className="text-ditto-slate text-xs uppercase font-bold tracking-wider">
                     Total Amount
                   </Text>
-                  <Text className="text-white text-3xl font-extrabold my-1">
+                  <Text className="text-ditto-ink text-3xl font-extrabold my-1">
                     {formatNgnCurrency(selectedTx.amount)}
                   </Text>
                   <View
                     className={`px-3 py-1 rounded-full ${
                       selectedTx.status === "SUCCESS"
-                        ? "bg-emerald-500/20 border border-emerald-500/40"
+                        ? "bg-emerald-100"
                         : selectedTx.status === "PENDING"
-                        ? "bg-amber-500/20 border border-amber-500/40"
-                        : "bg-rose-500/20 border border-rose-500/40"
+                        ? "bg-amber-100"
+                        : "bg-rose-100"
                     }`}
                   >
                     <Text
                       className={`text-xs font-bold uppercase ${
                         selectedTx.status === "SUCCESS"
-                          ? "text-emerald-300"
+                          ? "text-emerald-800"
                           : selectedTx.status === "PENDING"
-                          ? "text-amber-300"
-                          : "text-rose-300"
+                          ? "text-amber-800"
+                          : "text-rose-800"
                       }`}
                     >
                       {selectedTx.status}
@@ -225,45 +226,45 @@ export default function TransactionsScreen() {
                 </View>
 
                 {/* Details Breakdown */}
-                <View className="bg-slate-800/40 border border-slate-700/40 rounded-xl p-3 mb-5">
-                  <View className="flex-row justify-between py-2 border-b border-slate-800">
-                    <Text className="text-slate-400 text-xs">Service</Text>
-                    <Text className="text-white text-xs font-semibold">
+                <View className="bg-ditto-meadow border border-ditto-outline/10 rounded-[20px] p-4 mb-5">
+                  <View className="flex-row justify-between py-2 border-b border-ditto-outline/10">
+                    <Text className="text-ditto-slate text-xs font-medium">Service</Text>
+                    <Text className="text-ditto-ink text-xs font-bold">
                       {selectedTx.type}
                     </Text>
                   </View>
 
-                  <View className="flex-row justify-between py-2 border-b border-slate-800">
-                    <Text className="text-slate-400 text-xs">Recipient</Text>
-                    <Text className="text-white text-xs font-semibold">
+                  <View className="flex-row justify-between py-2 border-b border-ditto-outline/10">
+                    <Text className="text-ditto-slate text-xs font-medium">Recipient</Text>
+                    <Text className="text-ditto-ink text-xs font-bold">
                       {selectedTx.recipient || "—"}
                     </Text>
                   </View>
 
-                  <View className="flex-row justify-between py-2 border-b border-slate-800">
-                    <Text className="text-slate-400 text-xs">Date & Time</Text>
-                    <Text className="text-white text-xs font-semibold">
+                  <View className="flex-row justify-between py-2 border-b border-ditto-outline/10">
+                    <Text className="text-ditto-slate text-xs font-medium">Date & Time</Text>
+                    <Text className="text-ditto-ink text-xs font-bold">
                       {formatDate(selectedTx.createdAt)}
                     </Text>
                   </View>
 
-                  <View className="flex-row justify-between items-center py-2 border-b border-slate-800">
-                    <Text className="text-slate-400 text-xs">Reference</Text>
+                  <View className="flex-row justify-between items-center py-2 border-b border-ditto-outline/10">
+                    <Text className="text-ditto-slate text-xs font-medium">Reference</Text>
                     <TouchableOpacity
                       onPress={() => copyToClipboard("Reference", selectedTx.reference)}
                       className="flex-row items-center"
                     >
-                      <Text className="text-indigo-400 text-xs font-semibold mr-1">
+                      <Text className="text-ditto-ink text-xs font-bold mr-1">
                         {selectedTx.reference}
                       </Text>
-                      <Ionicons name="copy-outline" size={14} color="#818CF8" />
+                      <Ionicons name="copy-outline" size={14} color={colors.ditto.ink} />
                     </TouchableOpacity>
                   </View>
 
                   {selectedTx.providerRef && (
                     <View className="flex-row justify-between py-2">
-                      <Text className="text-slate-400 text-xs">Provider Ref</Text>
-                      <Text className="text-white text-xs font-mono">
+                      <Text className="text-ditto-slate text-xs font-medium">Provider Ref</Text>
+                      <Text className="text-ditto-ink text-xs font-mono font-semibold">
                         {selectedTx.providerRef}
                       </Text>
                     </View>
@@ -273,8 +274,8 @@ export default function TransactionsScreen() {
                 <Button
                   title="Close Receipt"
                   onPress={() => setSelectedTx(null)}
-                  variant="secondary"
-                  size="md"
+                  variant="primary"
+                  size="lg"
                 />
               </View>
             )}

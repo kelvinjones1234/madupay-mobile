@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Alert, Linking, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, Alert, Linking } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "../../../src/components/ScreenWrapper";
@@ -14,6 +14,7 @@ import { useAuth } from "../../../src/hooks/useAuth";
 import { useWalletSummary } from "../../../src/hooks/useWallet";
 import { useWalletFunding } from "../../../src/hooks/useWalletFunding";
 import { formatNgnCurrency } from "../../../src/utils/formatters";
+import { colors } from "../../../src/theme/colors";
 
 export default function FundWalletScreen() {
   const router = useRouter();
@@ -61,7 +62,6 @@ export default function FundWalletScreen() {
 
       if (paymentMethod === "CARD") {
         if (res.authorizationUrl) {
-          // If Paystack returned an authorization URL, prompt or open browser
           Alert.alert(
             "Complete Payment",
             "You will be redirected to the secure payment gateway to complete your card deposit.",
@@ -85,7 +85,6 @@ export default function FundWalletScreen() {
           });
         }
       } else {
-        // Bank transfer details generated
         setSuccessData({
           amount: parsedAmount,
           reference: res.reference || "TRANSFER-REQUEST",
@@ -102,19 +101,19 @@ export default function FundWalletScreen() {
       <Header showBack title="Fund Wallet" />
 
       {/* Balance Pill */}
-      <View className="flex-row items-center justify-between bg-slate-800/80 border border-slate-700/60 rounded-xl px-4 py-2.5 mb-5">
+      <View className="flex-row items-center justify-between bg-ditto-meadow border border-ditto-outline/10 rounded-full px-5 py-2.5 mb-5 shadow-xs">
         <View className="flex-row items-center">
-          <Ionicons name="wallet-outline" size={16} color="#818CF8" />
-          <Text className="text-slate-300 text-xs ml-2 font-medium">Current Balance:</Text>
+          <Ionicons name="wallet-outline" size={16} color={colors.ditto.ink} />
+          <Text className="text-ditto-slate text-xs ml-2 font-medium">Current Balance:</Text>
         </View>
-        <Text className="text-white font-bold text-xs">
+        <Text className="text-ditto-ink font-bold text-xs">
           {formatNgnCurrency(wallet?.balance ?? 0)}
         </Text>
       </View>
 
       {/* Amount Input */}
       <View className="mb-4">
-        <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">
+        <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-2 ml-1">
           Enter Deposit Amount
         </Text>
         <Input
@@ -122,60 +121,76 @@ export default function FundWalletScreen() {
           value={amount}
           onChangeText={setAmount}
           keyboardType="numeric"
-          leftIcon={<Ionicons name="cash-outline" size={18} color="#94A3B8" />}
+          leftIcon={<Ionicons name="cash-outline" size={18} color={colors.ditto.slate} />}
           helper="Min: ₦100 • Max: ₦5,000,000"
         />
 
-        {/* Quick Amount Chips */}
+        {/* Quick Amount Chips with selection by tone */}
         <View className="flex-row flex-wrap justify-between mt-1">
-          {quickAmounts.map((amt) => (
-            <TouchableOpacity
-              key={amt}
-              onPress={() => setAmount(amt.toString())}
-              className="w-[31%] bg-slate-800 border border-slate-700 rounded-xl py-2.5 items-center mb-2 active:bg-slate-700"
-            >
-              <Text className="text-indigo-300 text-xs font-semibold">
-                ₦{amt.toLocaleString()}
-              </Text>
-            </TouchableOpacity>
-          ))}
+          {quickAmounts.map((amt) => {
+            const isSelected = amount === amt.toString();
+            return (
+              <TouchableOpacity
+                key={amt}
+                onPress={() => setAmount(amt.toString())}
+                activeOpacity={0.8}
+                className={`w-[31%] rounded-full py-2.5 items-center mb-2.5 border ${
+                  isSelected
+                    ? "bg-ditto-ink border-ditto-ink shadow-xs"
+                    : "bg-ditto-meadow border-ditto-outline/10"
+                }`}
+              >
+                <Text
+                  className={`text-xs font-bold ${
+                    isSelected ? "text-white" : "text-ditto-ink"
+                  }`}
+                >
+                  ₦{amt.toLocaleString()}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
 
       {/* Payment Method Selector */}
       <View className="mb-6">
-        <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2.5">
+        <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-2.5 ml-1">
           Select Payment Method
         </Text>
 
         {/* Option 1: Card / Online Paystack */}
         <TouchableOpacity
           onPress={() => setPaymentMethod("CARD")}
-          activeOpacity={0.8}
-          className={`flex-row items-center justify-between p-4 rounded-2xl border mb-3 ${
+          activeOpacity={0.85}
+          className={`flex-row items-center justify-between p-4 rounded-[24px] border mb-3 ${
             paymentMethod === "CARD"
-              ? "bg-indigo-600/15 border-indigo-500"
-              : "bg-slate-800/60 border-slate-700/60"
+              ? "bg-ditto-meadowHigh border-ditto-ink shadow-xs"
+              : "bg-ditto-meadow border-ditto-outline/10"
           }`}
         >
           <View className="flex-row items-center flex-1 mr-3">
             <View
-              className={`w-11 h-11 rounded-xl items-center justify-center mr-3 ${
-                paymentMethod === "CARD" ? "bg-indigo-600" : "bg-slate-700"
+              className={`w-11 h-11 rounded-full items-center justify-center mr-3 ${
+                paymentMethod === "CARD" ? "bg-ditto-ink" : "bg-ditto-meadowHigh"
               }`}
             >
-              <Ionicons name="card-outline" size={20} color="#FFFFFF" />
+              <Ionicons
+                name="card-outline"
+                size={20}
+                color={paymentMethod === "CARD" ? "#FFFFFF" : colors.ditto.ink}
+              />
             </View>
             <View className="flex-1">
-              <Text className="text-white text-sm font-bold">Debit Card / Online</Text>
-              <Text className="text-slate-400 text-xs mt-0.5">
+              <Text className="text-ditto-ink text-sm font-bold">Debit Card / Online</Text>
+              <Text className="text-ditto-slate text-xs mt-0.5">
                 Instant credit via Mastercard, Visa, or Verve
               </Text>
             </View>
           </View>
           <View
             className={`w-5 h-5 rounded-full border-2 items-center justify-center ${
-              paymentMethod === "CARD" ? "border-indigo-400 bg-indigo-500" : "border-slate-500"
+              paymentMethod === "CARD" ? "border-ditto-ink bg-ditto-ink" : "border-ditto-slate/40"
             }`}
           >
             {paymentMethod === "CARD" && (
@@ -187,24 +202,28 @@ export default function FundWalletScreen() {
         {/* Option 2: Dedicated Virtual Account */}
         <TouchableOpacity
           onPress={() => setPaymentMethod("BANK_TRANSFER")}
-          activeOpacity={0.8}
-          className={`flex-row items-center justify-between p-4 rounded-2xl border ${
+          activeOpacity={0.85}
+          className={`flex-row items-center justify-between p-4 rounded-[24px] border ${
             paymentMethod === "BANK_TRANSFER"
-              ? "bg-indigo-600/15 border-indigo-500"
-              : "bg-slate-800/60 border-slate-700/60"
+              ? "bg-ditto-meadowHigh border-ditto-ink shadow-xs"
+              : "bg-ditto-meadow border-ditto-outline/10"
           }`}
         >
           <View className="flex-row items-center flex-1 mr-3">
             <View
-              className={`w-11 h-11 rounded-xl items-center justify-center mr-3 ${
-                paymentMethod === "BANK_TRANSFER" ? "bg-indigo-600" : "bg-slate-700"
+              className={`w-11 h-11 rounded-full items-center justify-center mr-3 ${
+                paymentMethod === "BANK_TRANSFER" ? "bg-ditto-ink" : "bg-ditto-meadowHigh"
               }`}
             >
-              <Ionicons name="business-outline" size={20} color="#FFFFFF" />
+              <Ionicons
+                name="business-outline"
+                size={20}
+                color={paymentMethod === "BANK_TRANSFER" ? "#FFFFFF" : colors.ditto.ink}
+              />
             </View>
             <View className="flex-1">
-              <Text className="text-white text-sm font-bold">Bank Transfer</Text>
-              <Text className="text-slate-400 text-xs mt-0.5">
+              <Text className="text-ditto-ink text-sm font-bold">Bank Transfer</Text>
+              <Text className="text-ditto-slate text-xs mt-0.5">
                 Transfer directly to your dedicated virtual account
               </Text>
             </View>
@@ -212,8 +231,8 @@ export default function FundWalletScreen() {
           <View
             className={`w-5 h-5 rounded-full border-2 items-center justify-center ${
               paymentMethod === "BANK_TRANSFER"
-                ? "border-indigo-400 bg-indigo-500"
-                : "border-slate-500"
+                ? "border-ditto-ink bg-ditto-ink"
+                : "border-ditto-slate/40"
             }`}
           >
             {paymentMethod === "BANK_TRANSFER" && (
@@ -225,31 +244,31 @@ export default function FundWalletScreen() {
 
       {/* If Bank Transfer is selected, preview dedicated account */}
       {paymentMethod === "BANK_TRANSFER" && (
-        <Card className="p-4 mb-6 bg-slate-800/80 border border-slate-700/70">
-          <Text className="text-white font-bold text-sm mb-2.5">Your Virtual Account</Text>
-          <View className="bg-slate-900/80 rounded-xl p-3 border border-slate-700/50 mb-2">
+        <Card className="p-5 mb-6 bg-ditto-meadow border border-ditto-outline/10">
+          <Text className="text-ditto-ink font-bold text-sm mb-2.5">Your Virtual Account</Text>
+          <View className="bg-ditto-canvas rounded-[18px] p-4 border border-ditto-outline/10 mb-2">
             <View className="flex-row justify-between mb-1.5">
-              <Text className="text-slate-400 text-xs">Bank</Text>
-              <Text className="text-white text-xs font-semibold">{virtualAccount.bankName}</Text>
+              <Text className="text-ditto-slate text-xs">Bank</Text>
+              <Text className="text-ditto-ink text-xs font-semibold">{virtualAccount.bankName}</Text>
             </View>
             <View className="flex-row justify-between items-center mb-1.5">
-              <Text className="text-slate-400 text-xs">Account No.</Text>
+              <Text className="text-ditto-slate text-xs">Account No.</Text>
               <TouchableOpacity
                 onPress={() => handleCopyAccount(virtualAccount.accountNumber)}
-                className="flex-row items-center bg-indigo-600/20 px-2 py-0.5 rounded"
+                className="flex-row items-center bg-ditto-meadowHigh px-2.5 py-1 rounded-full border border-ditto-outline/10"
               >
-                <Text className="text-indigo-300 font-bold text-sm mr-1 font-mono">
+                <Text className="text-ditto-ink font-bold text-sm mr-1 font-mono">
                   {virtualAccount.accountNumber}
                 </Text>
-                <Ionicons name="copy-outline" size={12} color="#818CF8" />
+                <Ionicons name="copy-outline" size={12} color={colors.ditto.ink} />
               </TouchableOpacity>
             </View>
             <View className="flex-row justify-between">
-              <Text className="text-slate-400 text-xs">Account Name</Text>
-              <Text className="text-white text-xs font-medium">{virtualAccount.accountName}</Text>
+              <Text className="text-ditto-slate text-xs">Account Name</Text>
+              <Text className="text-ditto-ink text-xs font-medium">{virtualAccount.accountName}</Text>
             </View>
           </View>
-          <Text className="text-slate-400 text-[11px] text-center">
+          <Text className="text-ditto-slate text-[11px] text-center font-normal">
             Zero processing fees. Transferred funds are credited instantly.
           </Text>
         </Card>

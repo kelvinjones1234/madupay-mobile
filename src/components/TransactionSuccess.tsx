@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Card } from "./Card";
 import { Button } from "./Button";
 import { formatNgnCurrency, formatDate } from "../utils/formatters";
+import { colors } from "../theme/colors";
 
 interface TransactionSuccessProps {
   visible: boolean;
@@ -37,57 +38,57 @@ export function TransactionSuccess({
       animationType="slide"
       onRequestClose={onDone}
     >
-      <View className="flex-1 justify-end bg-black/80">
-        <View className="bg-slate-900 border-t border-slate-700/80 rounded-t-3xl p-6">
+      <View className="flex-1 justify-end bg-black/60">
+        <View className="bg-ditto-canvas border-t border-ditto-outline/15 rounded-t-[2.5rem] p-6 pb-10">
           {/* Success Badge */}
           <View className="items-center mb-5 mt-2">
-            <View className="w-16 h-16 rounded-full bg-emerald-500/20 border-2 border-emerald-500/60 items-center justify-center mb-3 shadow-lg shadow-emerald-500/30">
-              <Ionicons name="checkmark" size={32} color="#10B981" />
+            <View className="w-16 h-16 rounded-full bg-emerald-50 border-2 border-emerald-500 items-center justify-center mb-3">
+              <Ionicons name="checkmark" size={30} color="#10B981" />
             </View>
-            <Text className="text-white text-2xl font-black tracking-tight text-center">
+            <Text className="text-ditto-ink text-2xl font-black tracking-tight text-center">
               {title}
             </Text>
-            <Text className="text-slate-400 text-xs mt-1 font-medium">
+            <Text className="text-ditto-slate text-xs mt-1 font-normal">
               Your transaction has been processed instantly.
             </Text>
           </View>
 
           {/* Amount Box */}
-          <Card variant="accent" className="items-center p-4 mb-5 border border-indigo-500/40">
-            <Text className="text-indigo-200 text-xs font-semibold uppercase tracking-wider mb-1">
+          <Card className="items-center p-4 mb-5 bg-ditto-meadow border border-ditto-outline/10">
+            <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-1">
               Amount Transferred
             </Text>
-            <Text className="text-white text-3xl font-extrabold tracking-tight">
+            <Text className="text-ditto-ink text-3xl font-extrabold tracking-tight">
               {formatNgnCurrency(amount)}
             </Text>
           </Card>
 
-          {/* Receipt Details */}
-          <View className="bg-slate-800/60 border border-slate-700/50 rounded-2xl p-4 mb-6">
-            <View className="flex-row justify-between py-2 border-b border-slate-700/50">
-              <Text className="text-slate-400 text-xs font-medium">Service</Text>
-              <Text className="text-white text-xs font-semibold">{serviceName}</Text>
+          {/* Details */}
+          <View className="bg-ditto-meadow border border-ditto-outline/10 rounded-[24px] p-5 mb-6">
+            <View className="flex-row justify-between py-2 border-b border-ditto-outline/10">
+              <Text className="text-ditto-slate text-xs font-medium">Service</Text>
+              <Text className="text-ditto-ink text-xs font-semibold">{serviceName}</Text>
             </View>
 
-            <View className="flex-row justify-between py-2 border-b border-slate-700/50">
-              <Text className="text-slate-400 text-xs font-medium">Recipient</Text>
-              <Text className="text-white text-xs font-mono font-medium">{recipient}</Text>
+            <View className="flex-row justify-between py-2 border-b border-ditto-outline/10">
+              <Text className="text-ditto-slate text-xs font-medium">Recipient</Text>
+              <Text className="text-ditto-ink text-xs font-mono font-medium">{recipient}</Text>
             </View>
 
-            <View className="flex-row justify-between items-center py-2 border-b border-slate-700/50">
-              <Text className="text-slate-400 text-xs font-medium">Reference</Text>
+            <View className="flex-row justify-between items-center py-2 border-b border-ditto-outline/10">
+              <Text className="text-ditto-slate text-xs font-medium">Reference</Text>
               <TouchableOpacity
                 onPress={handleCopyRef}
-                className="flex-row items-center bg-slate-700/50 px-2 py-0.5 rounded-md"
+                className="flex-row items-center bg-ditto-meadowHigh px-2.5 py-1 rounded-full border border-ditto-outline/10"
               >
-                <Text className="text-indigo-300 text-xs font-mono mr-1.5">{reference}</Text>
-                <Ionicons name="copy-outline" size={12} color="#818CF8" />
+                <Text className="text-ditto-ink text-xs font-mono font-medium mr-1.5">{reference}</Text>
+                <Ionicons name="copy-outline" size={12} color={colors.ditto.ink} />
               </TouchableOpacity>
             </View>
 
             <View className="flex-row justify-between py-2">
-              <Text className="text-slate-400 text-xs font-medium">Date & Time</Text>
-              <Text className="text-white text-xs font-medium">
+              <Text className="text-ditto-slate text-xs font-medium">Date & Time</Text>
+              <Text className="text-ditto-ink text-xs font-medium">
                 {formatDate(new Date().toISOString())}
               </Text>
             </View>
@@ -95,17 +96,12 @@ export function TransactionSuccess({
 
           {/* Actions */}
           <View className="space-y-3">
-            <Button
-              title="Return to Dashboard"
-              onPress={onDone}
-              size="lg"
-              className="mb-2"
-            />
+            <Button title="Done" onPress={onDone} size="lg" className="mb-2.5" />
             {onShareReceipt && (
               <Button
                 title="Share Receipt"
                 onPress={onShareReceipt}
-                variant="outline"
+                variant="secondary"
                 size="md"
               />
             )}

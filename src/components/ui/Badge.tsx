@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-export type BadgeVariant = "success" | "warning" | "error" | "info" | "neutral" | "primary";
+export type BadgeVariant = "success" | "warning" | "error" | "info" | "neutral" | "primary" | "gold";
 
 interface BadgeProps {
   label: string;
@@ -19,18 +19,19 @@ export function Badge({
   const getVariantStyles = () => {
     switch (variant) {
       case "success":
-        return "bg-emerald-500/15 border-emerald-500/30 text-emerald-400";
+        return "bg-emerald-50 border-emerald-300 text-emerald-800";
       case "warning":
-        return "bg-amber-500/15 border-amber-500/30 text-amber-400";
+        return "bg-amber-50 border-amber-300 text-amber-800";
       case "error":
-        return "bg-rose-500/15 border-rose-500/30 text-rose-400";
-      case "info":
-        return "bg-sky-500/15 border-sky-500/30 text-sky-400";
+        return "bg-rose-50 border-rose-300 text-rose-800";
+      case "gold":
       case "primary":
-        return "bg-indigo-500/15 border-indigo-500/30 text-indigo-300";
+        return "bg-ditto-gold/25 border-ditto-gold/50 text-ditto-ink";
+      case "info":
+        return "bg-ditto-meadowHigh border-ditto-outline/15 text-ditto-ink";
       case "neutral":
       default:
-        return "bg-slate-800 border-slate-700 text-slate-300";
+        return "bg-ditto-meadow border-ditto-outline/15 text-ditto-slate";
     }
   };
 
@@ -38,7 +39,7 @@ export function Badge({
 
   return (
     <View
-      className={`self-start rounded-full border px-2.5 py-0.5 ${getVariantStyles()} ${className}`}
+      className={`self-start rounded-full border px-3 py-1 ${getVariantStyles()} ${className}`}
     >
       <Text
         className={`font-bold uppercase tracking-wider ${

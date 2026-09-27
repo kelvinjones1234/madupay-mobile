@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "../Button";
-import { Card } from "../Card";
+import { colors } from "../../theme/colors";
 
 interface NetworkErrorProps {
   onRetry?: () => void;
@@ -17,16 +17,16 @@ export function NetworkError({
 }: NetworkErrorProps) {
   return (
     <View className={`flex-1 items-center justify-center p-6 ${className}`}>
-      <Card className="p-6 items-center bg-slate-800/80 border border-slate-700/60 w-full max-w-sm">
-        <View className="w-16 h-16 rounded-full bg-indigo-500/10 border border-indigo-500/30 items-center justify-center mb-4">
-          <Ionicons name="cloud-offline-outline" size={32} color="#818CF8" />
+      <View className="p-6 items-center bg-ditto-meadow border border-ditto-outline/10 rounded-[24px] w-full max-w-sm">
+        <View className="w-16 h-16 rounded-full bg-ditto-meadowHigh items-center justify-center mb-4">
+          <Ionicons name="cloud-offline-outline" size={32} color={colors.ditto.ink} />
         </View>
 
-        <Text className="text-white text-lg font-bold text-center mb-2">
+        <Text className="text-ditto-ink text-lg font-extrabold text-center mb-2">
           Connection Issue
         </Text>
 
-        <Text className="text-slate-400 text-xs text-center leading-5 mb-6">
+        <Text className="text-ditto-slate text-xs text-center leading-5 mb-6 font-medium">
           {message}
         </Text>
 
@@ -35,11 +35,11 @@ export function NetworkError({
             title="Try Again"
             onPress={onRetry}
             size="md"
-            icon={<Ionicons name="refresh-outline" size={16} color="#FFFFFF" />}
+            icon={<Ionicons name="refresh-outline" size={16} color={colors.ditto.ink} />}
             className="w-full"
           />
         )}
-      </Card>
+      </View>
     </View>
   );
 }

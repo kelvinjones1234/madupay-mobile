@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAuth } from "../src/hooks/useAuth";
 import { ErrorBoundary } from "../src/components/errors/ErrorBoundary";
 import { configureNotificationHandler } from "../src/services/notifications";
+import { colors } from "../src/theme/colors";
 import "../global.css";
 
 // Configure foreground notifications presentation
@@ -31,7 +32,7 @@ function RootNavigation() {
 
     if (!isAuthenticated && inTabsGroup) {
       // User logged out or session expired while in tabs
-      router.replace("/(auth)/welcome");
+      router.replace("/(auth)/login");
     } else if (isAuthenticated && inAuthGroup) {
       // User successfully authenticated while in auth flow
       router.replace("/(tabs)");
@@ -42,7 +43,7 @@ function RootNavigation() {
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: "#0F172A" },
+        contentStyle: { backgroundColor: colors.ditto.canvas },
         animation: "fade",
       }}
     >

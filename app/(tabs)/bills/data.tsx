@@ -15,6 +15,7 @@ import { useWalletSummary } from "../../../src/hooks/useWallet";
 import { useCatalog } from "../../../src/hooks/useCatalog";
 import { useDataPurchase } from "../../../src/hooks/useDataPurchase";
 import { formatNgnCurrency } from "../../../src/utils/formatters";
+import { colors } from "../../../src/theme/colors";
 
 export default function DataScreen() {
   const router = useRouter();
@@ -36,7 +37,6 @@ export default function DataScreen() {
     return catalog?.data?.providers?.length ? catalog.data.providers : fallbackProviders;
   }, [catalog]);
 
-  // Available data plans for active provider
   const availablePlans = useMemo(() => {
     if (!catalog?.data?.plans) return [];
     return catalog.data.plans.filter(
@@ -44,7 +44,6 @@ export default function DataScreen() {
     );
   }, [catalog, selectedProvider]);
 
-  // Set first plan by default when provider changes or plans load
   React.useEffect(() => {
     if (availablePlans.length > 0 && !selectedPlanId) {
       setSelectedPlanId(availablePlans[0].id);
@@ -114,7 +113,6 @@ export default function DataScreen() {
         planName: activePlan.name,
       });
 
-      // Clear input fields
       setPhoneNumber("");
     } catch (err) {
       setShowConfirmation(false);
@@ -129,19 +127,19 @@ export default function DataScreen() {
       <Header showBack title="Buy Internet Data" />
 
       {/* Balance Pill */}
-      <View className="flex-row items-center justify-between bg-slate-800/80 border border-slate-700/60 rounded-xl px-4 py-2.5 mb-5">
+      <View className="flex-row items-center justify-between bg-ditto-meadow border border-ditto-outline/10 rounded-full px-5 py-2.5 mb-5 shadow-xs">
         <View className="flex-row items-center">
-          <Ionicons name="wallet-outline" size={16} color="#818CF8" />
-          <Text className="text-slate-300 text-xs ml-2 font-medium">Safe to Spend:</Text>
+          <Ionicons name="wallet-outline" size={16} color={colors.ditto.ink} />
+          <Text className="text-ditto-slate text-xs ml-2 font-medium">Safe to Spend:</Text>
         </View>
-        <Text className="text-white font-bold text-xs">
+        <Text className="text-ditto-ink font-bold text-xs">
           {formatNgnCurrency(wallet?.safeToSpend ?? wallet?.balance ?? 0)}
         </Text>
       </View>
 
-      {/* Network Provider Selector */}
+      {/* Network Provider Selector - Full Pill Selection by Tone */}
       <View className="mb-4">
-        <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2.5">
+        <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-2.5 ml-1">
           Select Network
         </Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row">
@@ -155,15 +153,15 @@ export default function DataScreen() {
                   setSelectedPlanId("");
                 }}
                 activeOpacity={0.8}
-                className={`mr-3 px-5 py-3 rounded-2xl border items-center justify-center ${
+                className={`mr-2.5 px-5 py-2.5 rounded-full border items-center justify-center ${
                   isSelected
-                    ? "bg-indigo-600/20 border-indigo-500 shadow-sm"
-                    : "bg-slate-800/60 border-slate-700/60"
+                    ? "bg-ditto-ink border-ditto-ink shadow-xs"
+                    : "bg-ditto-meadow border-ditto-outline/10"
                 }`}
               >
                 <Text
-                  className={`text-sm font-bold tracking-wide ${
-                    isSelected ? "text-indigo-400" : "text-slate-300"
+                  className={`text-xs font-bold tracking-wide ${
+                    isSelected ? "text-white" : "text-ditto-ink"
                   }`}
                 >
                   {prov}
@@ -176,11 +174,13 @@ export default function DataScreen() {
 
       {/* Phone Number Input */}
       <View className="mb-5">
-        <View className="flex-row items-center justify-between mb-1.5">
-          <Text className="text-slate-300 text-sm font-medium">Recipient Phone Number</Text>
+        <View className="flex-row items-center justify-between mb-1.5 ml-1">
+          <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider">
+            Recipient Phone Number
+          </Text>
           {user?.phone ? (
             <TouchableOpacity onPress={handleUseMyNumber}>
-              <Text className="text-indigo-400 text-xs font-semibold">Use My Number</Text>
+              <Text className="text-ditto-ink text-xs font-semibold underline">Use My Number</Text>
             </TouchableOpacity>
           ) : null}
         </View>
@@ -191,31 +191,31 @@ export default function DataScreen() {
           onChangeText={setPhoneNumber}
           keyboardType="phone-pad"
           maxLength={11}
-          leftIcon={<Ionicons name="call-outline" size={18} color="#94A3B8" />}
+          leftIcon={<Ionicons name="call-outline" size={18} color={colors.ditto.slate} />}
           helper="Valid 11-digit Nigerian mobile number"
         />
       </View>
 
       {/* Plans List */}
       <View className="mb-6">
-        <View className="flex-row items-center justify-between mb-2.5">
-          <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider">
+        <View className="flex-row items-center justify-between mb-2.5 ml-1">
+          <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider">
             Available {selectedProvider} Data Plans
           </Text>
-          <Text className="text-slate-500 text-xs font-medium">
+          <Text className="text-ditto-slate text-xs font-medium">
             {availablePlans.length} packages
           </Text>
         </View>
 
         {catalogLoading ? (
           <View className="py-8 items-center justify-center">
-            <ActivityIndicator size="small" color="#818CF8" />
-            <Text className="text-slate-400 text-xs mt-2">Loading data plans...</Text>
+            <ActivityIndicator size="small" color={colors.ditto.ink} />
+            <Text className="text-ditto-slate text-xs mt-2">Loading data plans...</Text>
           </View>
         ) : availablePlans.length === 0 ? (
-          <Card className="items-center justify-center py-6">
-            <Ionicons name="wifi-outline" size={28} color="#64748B" />
-            <Text className="text-slate-400 text-xs mt-2">
+          <Card className="items-center justify-center py-6 bg-ditto-meadow border border-ditto-outline/10">
+            <Ionicons name="wifi-outline" size={26} color={colors.ditto.slate} />
+            <Text className="text-ditto-slate text-xs mt-2 font-medium">
               No data plans currently available for {selectedProvider}
             </Text>
           </Card>
@@ -224,7 +224,7 @@ export default function DataScreen() {
             style={{ maxHeight: 260 }}
             nestedScrollEnabled
             showsVerticalScrollIndicator={false}
-            className="bg-slate-800/40 rounded-2xl border border-slate-700/40 p-2"
+            className="bg-ditto-meadow rounded-[24px] border border-ditto-outline/10 p-2.5"
           >
             {availablePlans.map((plan) => {
               const isSelected = selectedPlanId === plan.id;
@@ -232,35 +232,52 @@ export default function DataScreen() {
                 <TouchableOpacity
                   key={plan.id}
                   onPress={() => setSelectedPlanId(plan.id)}
-                  activeOpacity={0.7}
-                  className={`flex-row items-center justify-between p-3.5 rounded-xl mb-2 border ${
+                  activeOpacity={0.75}
+                  className={`flex-row items-center justify-between p-3.5 rounded-[18px] mb-2 border ${
                     isSelected
-                      ? "bg-indigo-600/25 border-indigo-500"
-                      : "bg-slate-800/70 border-slate-700/50"
+                      ? "bg-ditto-ink border-ditto-ink shadow-xs"
+                      : "bg-white border-ditto-outline/10"
                   }`}
                 >
                   <View className="flex-1 mr-3">
-                    <Text className="text-white text-sm font-bold" numberOfLines={1}>
+                    <Text
+                      className={`text-sm font-bold ${
+                        isSelected ? "text-white" : "text-ditto-ink"
+                      }`}
+                      numberOfLines={1}
+                    >
                       {plan.name}
                     </Text>
                     <View className="flex-row items-center mt-0.5">
-                      <Ionicons name="time-outline" size={12} color="#94A3B8" />
-                      <Text className="text-slate-400 text-xs ml-1 font-medium">
+                      <Ionicons
+                        name="time-outline"
+                        size={12}
+                        color={isSelected ? colors.ditto.paper : colors.ditto.slate}
+                      />
+                      <Text
+                        className={`text-xs ml-1 font-medium ${
+                          isSelected ? "text-ditto-paper/80" : "text-ditto-slate"
+                        }`}
+                      >
                         Validity: {plan.duration}
                       </Text>
                     </View>
                   </View>
 
                   <View className="items-end">
-                    <Text className="text-indigo-400 font-extrabold text-sm font-mono">
+                    <Text
+                      className={`font-extrabold text-sm font-mono ${
+                        isSelected ? "text-ditto-gold" : "text-ditto-ink"
+                      }`}
+                    >
                       {formatNgnCurrency(plan.sellingPrice)}
                     </Text>
                     <View
                       className={`w-4 h-4 rounded-full border mt-1 items-center justify-center ${
-                        isSelected ? "border-indigo-400 bg-indigo-500" : "border-slate-600"
+                        isSelected ? "border-ditto-gold bg-ditto-gold" : "border-ditto-outline/20"
                       }`}
                     >
-                      {isSelected && <View className="w-1.5 h-1.5 rounded-full bg-white" />}
+                      {isSelected && <View className="w-1.5 h-1.5 rounded-full bg-ditto-ink" />}
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -272,27 +289,27 @@ export default function DataScreen() {
 
       {/* Selected Plan Summary Card */}
       {activePlan && (
-        <Card className="p-4 mb-6 bg-slate-800/70 border border-slate-700/60">
-          <Text className="text-white font-bold text-sm mb-3">Order Details</Text>
+        <Card className="p-5 mb-6 bg-ditto-meadow border border-ditto-outline/10">
+          <Text className="text-ditto-ink font-bold text-sm mb-3">Order Details</Text>
           <View className="flex-row justify-between mb-1.5">
-            <Text className="text-slate-400 text-xs">Selected Plan</Text>
-            <Text className="text-white text-xs font-medium" numberOfLines={1}>
+            <Text className="text-ditto-slate text-xs">Selected Plan</Text>
+            <Text className="text-ditto-ink text-xs font-semibold" numberOfLines={1}>
               {activePlan.name}
             </Text>
           </View>
           <View className="flex-row justify-between mb-1.5">
-            <Text className="text-slate-400 text-xs">Validity Period</Text>
-            <Text className="text-white text-xs font-medium">{activePlan.duration}</Text>
+            <Text className="text-ditto-slate text-xs">Validity Period</Text>
+            <Text className="text-ditto-ink text-xs font-semibold">{activePlan.duration}</Text>
           </View>
           <View className="flex-row justify-between mb-2">
-            <Text className="text-slate-400 text-xs">Recipient</Text>
-            <Text className="text-white text-xs font-mono font-medium">
+            <Text className="text-ditto-slate text-xs">Recipient</Text>
+            <Text className="text-ditto-ink text-xs font-mono font-medium">
               {phoneNumber || "—"}
             </Text>
           </View>
-          <View className="flex-row justify-between pt-2 border-t border-slate-700/60">
-            <Text className="text-white text-sm font-bold">Total Price</Text>
-            <Text className="text-indigo-400 text-base font-extrabold">
+          <View className="flex-row justify-between pt-2.5 border-t border-ditto-outline/10">
+            <Text className="text-ditto-ink text-sm font-bold">Total Price</Text>
+            <Text className="text-ditto-ink text-base font-extrabold font-mono">
               {formatNgnCurrency(activePlan.sellingPrice)}
             </Text>
           </View>

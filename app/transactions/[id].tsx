@@ -8,6 +8,7 @@ import { Button } from "../../src/components/Button";
 import { TransactionReceipt } from "../../src/components/payments/TransactionReceipt";
 import { useTransactionDetail } from "../../src/hooks/useTransactions";
 import { formatNgnCurrency, formatDate } from "../../src/utils/formatters";
+import { colors } from "../../src/theme/colors";
 
 export default function TransactionDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -40,19 +41,19 @@ export default function TransactionDetailScreen() {
 
       {isLoading ? (
         <View className="flex-1 items-center justify-center py-24">
-          <ActivityIndicator size="large" color="#818CF8" />
-          <Text className="text-slate-400 text-xs mt-3">Loading receipt details...</Text>
+          <ActivityIndicator size="large" color={colors.ditto.ink} />
+          <Text className="text-ditto-slate text-xs mt-3 font-medium">Loading receipt details...</Text>
         </View>
       ) : error || !transaction ? (
         <View className="flex-1 items-center justify-center py-20 px-4">
-          <View className="w-16 h-16 rounded-full bg-rose-500/10 border border-rose-500/30 items-center justify-center mb-4">
-            <Ionicons name="alert-circle-outline" size={32} color="#F43F5E" />
+          <View className="w-16 h-16 rounded-full bg-rose-100 items-center justify-center mb-4">
+            <Ionicons name="alert-circle-outline" size={32} color="#E11D48" />
           </View>
-          <Text className="text-white text-lg font-bold mb-1">Receipt Not Found</Text>
-          <Text className="text-slate-400 text-xs text-center mb-6">
+          <Text className="text-ditto-ink text-lg font-extrabold mb-1">Receipt Not Found</Text>
+          <Text className="text-ditto-slate text-xs text-center mb-6">
             We couldn't retrieve the details for this transaction reference.
           </Text>
-          <View className="flex-row space-x-3">
+          <View className="flex-row gap-3">
             <Button title="Try Again" onPress={() => refetch()} variant="secondary" size="md" />
             <Button title="Go Back" onPress={() => router.back()} size="md" />
           </View>

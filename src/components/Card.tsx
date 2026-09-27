@@ -4,7 +4,7 @@ import { View, ViewProps } from "react-native";
 interface CardProps extends ViewProps {
   children: React.ReactNode;
   className?: string;
-  variant?: "default" | "elevated" | "accent";
+  variant?: "default" | "elevated" | "accent" | "canvas";
 }
 
 export function Card({
@@ -17,18 +17,22 @@ export function Card({
   const getVariantStyles = () => {
     switch (variant) {
       case "accent":
-        return "bg-gradient-to-br from-indigo-900/60 to-slate-900 border border-indigo-500/30";
+        // Iconic deep ink card (used for balance overview)
+        return "bg-ditto-nightInk border border-white/10";
       case "elevated":
-        return "bg-slate-800/90 border border-slate-700/80 shadow-lg shadow-black/40";
+        return "bg-ditto-meadowHigh border border-ditto-outline/15 shadow-xs";
+      case "canvas":
+        return "bg-ditto-canvas border border-ditto-outline/10";
       case "default":
       default:
-        return "bg-slate-800/60 border border-slate-700/50";
+        // Authentic Soft Meadow card
+        return "bg-ditto-meadow border border-ditto-outline/10";
     }
   };
 
   return (
     <View
-      className={`rounded-2xl p-4 ${getVariantStyles()} ${className}`}
+      className={`rounded-[24px] p-5 ${getVariantStyles()} ${className}`}
       style={style}
       {...props}
     >

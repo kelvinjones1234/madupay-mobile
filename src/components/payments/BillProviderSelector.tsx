@@ -22,7 +22,7 @@ export function BillProviderSelector({
     return (
       <View className={`mb-4 ${className}`}>
         {label ? (
-          <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2.5">
+          <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-2.5 ml-1">
             {label}
           </Text>
         ) : null}
@@ -34,15 +34,15 @@ export function BillProviderSelector({
                 key={prov}
                 onPress={() => onSelect(prov)}
                 activeOpacity={0.8}
-                className={`mr-2.5 px-4 py-2.5 rounded-xl border items-center justify-center ${
+                className={`mr-2 px-5 py-2.5 rounded-full border items-center justify-center ${
                   isSelected
-                    ? "bg-indigo-600/25 border-indigo-500 shadow-sm"
-                    : "bg-slate-800/60 border-slate-700/60"
+                    ? "bg-ditto-ink border-ditto-ink shadow-xs"
+                    : "bg-ditto-meadow border-ditto-outline/10"
                 }`}
               >
                 <Text
                   className={`text-xs font-bold tracking-wide ${
-                    isSelected ? "text-indigo-400" : "text-slate-300"
+                    isSelected ? "text-white" : "text-ditto-ink"
                   }`}
                 >
                   {prov}
@@ -58,7 +58,7 @@ export function BillProviderSelector({
   return (
     <View className={`mb-4 ${className}`}>
       {label ? (
-        <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2.5">
+        <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-2.5 ml-1">
           {label}
         </Text>
       ) : null}
@@ -70,15 +70,15 @@ export function BillProviderSelector({
               key={prov}
               onPress={() => onSelect(prov)}
               activeOpacity={0.8}
-              className={`w-[48%] p-3 rounded-xl border mb-2.5 items-center justify-center ${
+              className={`w-[48%] py-3 px-4 rounded-full border mb-2.5 items-center justify-center ${
                 isSelected
-                  ? "bg-indigo-600/25 border-indigo-500 shadow-sm"
-                  : "bg-slate-800/60 border-slate-700/60"
+                  ? "bg-ditto-ink border-ditto-ink shadow-xs"
+                  : "bg-ditto-meadow border-ditto-outline/10"
               }`}
             >
               <Text
                 className={`text-xs font-bold ${
-                  isSelected ? "text-indigo-400" : "text-slate-300"
+                  isSelected ? "text-white" : "text-ditto-ink"
                 }`}
               >
                 {prov}

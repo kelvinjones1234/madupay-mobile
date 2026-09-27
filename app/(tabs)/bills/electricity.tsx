@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "../../../src/components/ScreenWrapper";
 import { Header } from "../../../src/components/Header";
 import { Input } from "../../../src/components/Input";
 import { Button } from "../../../src/components/Button";
-import { Card } from "../../../src/components/Card";
 import { BillProviderSelector } from "../../../src/components/payments/BillProviderSelector";
 import { CustomerValidationCard } from "../../../src/components/payments/CustomerValidationCard";
 import { PaymentReview } from "../../../src/components/payments/PaymentReview";
@@ -17,6 +16,7 @@ import { useCatalog } from "../../../src/hooks/useCatalog";
 import { useElectricity } from "../../../src/hooks/useElectricity";
 import { useBillValidation, BillValidationResult } from "../../../src/hooks/useBillValidation";
 import { formatNgnCurrency } from "../../../src/utils/formatters";
+import { colors } from "../../../src/theme/colors";
 
 export default function ElectricityScreen() {
   const router = useRouter();
@@ -146,7 +146,6 @@ export default function ElectricityScreen() {
         units: units ?? undefined,
       });
 
-      // Clear input fields
       setMeterNumber("");
       setAmount("");
       setVerifiedCustomer(null);
@@ -162,12 +161,12 @@ export default function ElectricityScreen() {
       <Header title="Electricity Bills" showBack />
 
       {/* Wallet Balance Bar */}
-      <View className="flex-row items-center justify-between bg-slate-800/80 border border-slate-700/60 rounded-xl px-4 py-2.5 mb-5">
+      <View className="flex-row items-center justify-between bg-ditto-meadow border border-ditto-outline/10 rounded-full px-5 py-2.5 mb-5 shadow-xs">
         <View className="flex-row items-center">
-          <Ionicons name="wallet-outline" size={16} color="#818CF8" />
-          <Text className="text-slate-300 text-xs ml-2 font-medium">Safe to Spend:</Text>
+          <Ionicons name="wallet-outline" size={16} color={colors.ditto.ink} />
+          <Text className="text-ditto-slate text-xs ml-2 font-medium">Safe to Spend:</Text>
         </View>
-        <Text className="text-white font-bold text-xs">
+        <Text className="text-ditto-ink font-bold text-xs">
           {formatNgnCurrency(wallet?.safeToSpend ?? wallet?.balance ?? 0)}
         </Text>
       </View>
@@ -186,23 +185,23 @@ export default function ElectricityScreen() {
 
       {/* Meter Type Toggle */}
       <View className="mb-4">
-        <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">
+        <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-2 ml-1">
           Meter Type
         </Text>
-        <View className="flex-row bg-slate-800/80 p-1 rounded-xl border border-slate-700/60">
+        <View className="flex-row bg-ditto-meadow p-1 rounded-full border border-ditto-outline/10">
           <TouchableOpacity
             onPress={() => {
               setMeterType("PREPAID");
               setVerifiedCustomer(null);
             }}
             activeOpacity={0.8}
-            className={`flex-1 py-2.5 rounded-lg items-center ${
-              meterType === "PREPAID" ? "bg-indigo-600" : "bg-transparent"
+            className={`flex-1 py-2.5 rounded-full items-center ${
+              meterType === "PREPAID" ? "bg-ditto-ink shadow-xs" : "bg-transparent"
             }`}
           >
             <Text
               className={`text-xs font-bold ${
-                meterType === "PREPAID" ? "text-white" : "text-slate-400"
+                meterType === "PREPAID" ? "text-white" : "text-ditto-slate"
               }`}
             >
               Prepaid (Token)
@@ -214,13 +213,13 @@ export default function ElectricityScreen() {
               setVerifiedCustomer(null);
             }}
             activeOpacity={0.8}
-            className={`flex-1 py-2.5 rounded-lg items-center ${
-              meterType === "POSTPAID" ? "bg-indigo-600" : "bg-transparent"
+            className={`flex-1 py-2.5 rounded-full items-center ${
+              meterType === "POSTPAID" ? "bg-ditto-ink shadow-xs" : "bg-transparent"
             }`}
           >
             <Text
               className={`text-xs font-bold ${
-                meterType === "POSTPAID" ? "text-white" : "text-slate-400"
+                meterType === "POSTPAID" ? "text-white" : "text-ditto-slate"
               }`}
             >
               Postpaid (Bill)
@@ -231,8 +230,8 @@ export default function ElectricityScreen() {
 
       {/* Meter Number Input */}
       <View className="mb-4">
-        <View className="flex-row items-center justify-between mb-1.5">
-          <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider">
+        <View className="flex-row items-center justify-between mb-1.5 ml-1">
+          <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider">
             Meter Number
           </Text>
           {isMeterValid && !verifiedCustomer && (
@@ -242,11 +241,11 @@ export default function ElectricityScreen() {
               className="flex-row items-center"
             >
               {validationMutation.isPending ? (
-                <ActivityIndicator size="small" color="#818CF8" />
+                <ActivityIndicator size="small" color={colors.ditto.ink} />
               ) : (
                 <>
-                  <Ionicons name="checkmark-done" size={14} color="#818CF8" />
-                  <Text className="text-indigo-400 text-xs font-bold ml-1">Verify Meter</Text>
+                  <Ionicons name="checkmark-done" size={14} color={colors.ditto.ink} />
+                  <Text className="text-ditto-ink text-xs font-bold ml-1 underline">Verify Meter</Text>
                 </>
               )}
             </TouchableOpacity>
@@ -261,7 +260,7 @@ export default function ElectricityScreen() {
             setMeterNumber(val);
             if (verifiedCustomer) setVerifiedCustomer(null);
           }}
-          leftIcon={<Ionicons name="speedometer-outline" size={18} color="#94A3B8" />}
+          leftIcon={<Ionicons name="speedometer-outline" size={18} color={colors.ditto.slate} />}
         />
       </View>
 
@@ -285,7 +284,7 @@ export default function ElectricityScreen() {
 
       {/* Amount Input */}
       <View className="mb-4">
-        <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2">
+        <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-2 ml-1">
           Amount (₦)
         </Text>
         <Input
@@ -293,34 +292,39 @@ export default function ElectricityScreen() {
           keyboardType="numeric"
           value={amount}
           onChangeText={setAmount}
-          leftIcon={<Text className="text-slate-400 font-bold text-base">₦</Text>}
+          leftIcon={<Text className="text-ditto-slate font-bold text-base">₦</Text>}
         />
       </View>
 
       {/* Quick Amount Selector */}
       <View className="mb-6">
-        <Text className="text-slate-400 text-xs mb-2 font-medium">Quick Amounts</Text>
+        <Text className="text-ditto-slate text-xs mb-2 ml-1 font-semibold uppercase tracking-wider">
+          Quick Amounts
+        </Text>
         <View className="flex-row flex-wrap justify-between">
-          {quickAmounts.map((q) => (
-            <TouchableOpacity
-              key={q}
-              onPress={() => setAmount(q.toString())}
-              activeOpacity={0.7}
-              className={`w-[31%] py-2.5 rounded-xl border mb-2 items-center ${
-                amount === q.toString()
-                  ? "bg-indigo-600/30 border-indigo-500"
-                  : "bg-slate-800/60 border-slate-700/60"
-              }`}
-            >
-              <Text
-                className={`text-xs font-bold ${
-                  amount === q.toString() ? "text-indigo-400" : "text-slate-300"
+          {quickAmounts.map((q) => {
+            const isSelected = amount === q.toString();
+            return (
+              <TouchableOpacity
+                key={q}
+                onPress={() => setAmount(q.toString())}
+                activeOpacity={0.8}
+                className={`w-[31%] py-2.5 rounded-full border mb-2.5 items-center ${
+                  isSelected
+                    ? "bg-ditto-ink border-ditto-ink shadow-xs"
+                    : "bg-ditto-meadow border-ditto-outline/10"
                 }`}
               >
-                ₦{q.toLocaleString()}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text
+                  className={`text-xs font-bold ${
+                    isSelected ? "text-white" : "text-ditto-ink"
+                  }`}
+                >
+                  ₦{q.toLocaleString()}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
 

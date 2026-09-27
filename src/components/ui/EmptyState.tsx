@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "../Button";
+import { colors } from "../../theme/colors";
 
 interface EmptyStateProps {
   icon?: keyof typeof Ionicons.glyphMap;
@@ -22,11 +23,11 @@ export function EmptyState({
 }: EmptyStateProps) {
   return (
     <View className={`items-center justify-center py-10 px-6 ${className}`}>
-      <View className="w-16 h-16 rounded-2xl bg-slate-800/80 border border-slate-700/60 items-center justify-center mb-4 shadow-sm">
-        <Ionicons name={icon} size={32} color="#64748B" />
+      <View className="w-16 h-16 rounded-full bg-ditto-meadow border border-ditto-outline/15 items-center justify-center mb-4 shadow-xs">
+        <Ionicons name={icon} size={28} color={colors.ditto.ink} />
       </View>
-      <Text className="text-white text-base font-bold text-center mb-1.5">{title}</Text>
-      <Text className="text-slate-400 text-xs text-center leading-5 max-w-xs mb-5">
+      <Text className="text-ditto-ink text-base font-bold text-center mb-1.5">{title}</Text>
+      <Text className="text-ditto-slate text-xs text-center leading-5 max-w-xs mb-5 font-normal">
         {description}
       </Text>
       {actionTitle && onAction && (

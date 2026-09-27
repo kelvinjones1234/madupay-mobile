@@ -1,12 +1,11 @@
 import React, { useState, useMemo } from "react";
-import { View, Text, TouchableOpacity, ScrollView, Alert, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "../../../src/components/ScreenWrapper";
 import { Header } from "../../../src/components/Header";
 import { Input } from "../../../src/components/Input";
 import { Button } from "../../../src/components/Button";
-import { Card } from "../../../src/components/Card";
 import { BillProviderSelector } from "../../../src/components/payments/BillProviderSelector";
 import { CustomerValidationCard } from "../../../src/components/payments/CustomerValidationCard";
 import { PaymentReview } from "../../../src/components/payments/PaymentReview";
@@ -17,6 +16,7 @@ import { useCatalog } from "../../../src/hooks/useCatalog";
 import { useCable } from "../../../src/hooks/useCable";
 import { useBillValidation, BillValidationResult } from "../../../src/hooks/useBillValidation";
 import { formatNgnCurrency } from "../../../src/utils/formatters";
+import { colors } from "../../../src/theme/colors";
 
 interface FallbackCablePlan {
   id: string;
@@ -73,7 +73,6 @@ export default function CableScreen() {
   } | null>(null);
   const [failureError, setFailureError] = useState<string | null>(null);
 
-  // Available packages for selected provider
   const availablePlans = useMemo(() => {
     const catalogPlans = catalog?.cable?.plans?.filter(
       (p) => p.network.toUpperCase() === selectedProvider.toUpperCase()
@@ -88,7 +87,6 @@ export default function CableScreen() {
     );
   }, [catalog, selectedProvider]);
 
-  // Default selection when provider changes
   React.useEffect(() => {
     if (availablePlans.length > 0) {
       setSelectedPlanId(availablePlans[0].id);
@@ -184,7 +182,6 @@ export default function CableScreen() {
         planName: activePlan.name,
       });
 
-      // Clear fields
       setSmartcardNumber("");
       setVerifiedCustomer(null);
     } catch (err: unknown) {
@@ -199,12 +196,12 @@ export default function CableScreen() {
       <Header title="Cable TV Subscription" showBack />
 
       {/* Wallet Balance Bar */}
-      <View className="flex-row items-center justify-between bg-slate-800/80 border border-slate-700/60 rounded-xl px-4 py-2.5 mb-5">
+      <View className="flex-row items-center justify-between bg-ditto-meadow border border-ditto-outline/10 rounded-full px-5 py-2.5 mb-5 shadow-xs">
         <View className="flex-row items-center">
-          <Ionicons name="wallet-outline" size={16} color="#818CF8" />
-          <Text className="text-slate-300 text-xs ml-2 font-medium">Safe to Spend:</Text>
+          <Ionicons name="wallet-outline" size={16} color={colors.ditto.ink} />
+          <Text className="text-ditto-slate text-xs ml-2 font-medium">Safe to Spend:</Text>
         </View>
-        <Text className="text-white font-bold text-xs">
+        <Text className="text-ditto-ink font-bold text-xs">
           {formatNgnCurrency(wallet?.safeToSpend ?? wallet?.balance ?? 0)}
         </Text>
       </View>
@@ -223,8 +220,8 @@ export default function CableScreen() {
 
       {/* Smartcard Input */}
       <View className="mb-4">
-        <View className="flex-row items-center justify-between mb-1.5">
-          <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider">
+        <View className="flex-row items-center justify-between mb-1.5 ml-1">
+          <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider">
             Smartcard / IUC Number
           </Text>
           {isSmartcardValid && !verifiedCustomer && (
@@ -234,11 +231,11 @@ export default function CableScreen() {
               className="flex-row items-center"
             >
               {validationMutation.isPending ? (
-                <ActivityIndicator size="small" color="#818CF8" />
+                <ActivityIndicator size="small" color={colors.ditto.ink} />
               ) : (
                 <>
-                  <Ionicons name="checkmark-done" size={14} color="#818CF8" />
-                  <Text className="text-indigo-400 text-xs font-bold ml-1">Verify Card</Text>
+                  <Ionicons name="checkmark-done" size={14} color={colors.ditto.ink} />
+                  <Text className="text-ditto-ink text-xs font-bold ml-1 underline">Verify Card</Text>
                 </>
               )}
             </TouchableOpacity>
@@ -253,7 +250,7 @@ export default function CableScreen() {
             setSmartcardNumber(val);
             if (verifiedCustomer) setVerifiedCustomer(null);
           }}
-          leftIcon={<Ionicons name="tv-outline" size={18} color="#94A3B8" />}
+          leftIcon={<Ionicons name="tv-outline" size={18} color={colors.ditto.slate} />}
         />
       </View>
 
@@ -274,9 +271,9 @@ export default function CableScreen() {
         />
       )}
 
-      {/* Bouquet Plans Selection */}
+      {/* Bouquet Plans Selection with selection by tone */}
       <View className="mb-6">
-        <Text className="text-slate-300 text-xs font-semibold uppercase tracking-wider mb-2.5">
+        <Text className="text-ditto-slate text-xs font-semibold uppercase tracking-wider mb-2.5 ml-1">
           Select Subscription Bouquet
         </Text>
         <View className="space-y-2.5">
@@ -287,32 +284,44 @@ export default function CableScreen() {
                 key={plan.id}
                 onPress={() => setSelectedPlanId(plan.id)}
                 activeOpacity={0.8}
-                className={`p-4 rounded-2xl border flex-row items-center justify-between mb-2.5 ${
+                className={`p-4 rounded-[24px] border flex-row items-center justify-between mb-2.5 ${
                   isSelected
-                    ? "bg-indigo-600/25 border-indigo-500"
-                    : "bg-slate-800/60 border-slate-700/60"
+                    ? "bg-ditto-ink border-ditto-ink shadow-xs"
+                    : "bg-ditto-meadow border-ditto-outline/10"
                 }`}
               >
                 <View className="flex-row items-center flex-1 mr-3">
                   <View
                     className={`w-5 h-5 rounded-full border items-center justify-center mr-3 ${
                       isSelected
-                        ? "border-indigo-400 bg-indigo-500"
-                        : "border-slate-500 bg-transparent"
+                        ? "border-ditto-gold bg-ditto-gold"
+                        : "border-ditto-outline/25 bg-transparent"
                     }`}
                   >
                     {isSelected && (
-                      <View className="w-2 h-2 rounded-full bg-white" />
+                      <View className="w-2 h-2 rounded-full bg-ditto-ink" />
                     )}
                   </View>
                   <View className="flex-1">
-                    <Text className="text-white font-bold text-sm">{plan.name}</Text>
-                    <Text className="text-slate-400 text-xs mt-0.5">30 Days Validity</Text>
+                    <Text
+                      className={`font-bold text-sm ${
+                        isSelected ? "text-white" : "text-ditto-ink"
+                      }`}
+                    >
+                      {plan.name}
+                    </Text>
+                    <Text
+                      className={`text-xs mt-0.5 ${
+                        isSelected ? "text-ditto-paper/80" : "text-ditto-slate"
+                      }`}
+                    >
+                      30 Days Validity
+                    </Text>
                   </View>
                 </View>
                 <Text
-                  className={`font-black text-sm font-mono ${
-                    isSelected ? "text-indigo-400" : "text-white"
+                  className={`font-extrabold text-sm font-mono ${
+                    isSelected ? "text-ditto-gold" : "text-ditto-ink"
                   }`}
                 >
                   {formatNgnCurrency(plan.sellingPrice)}

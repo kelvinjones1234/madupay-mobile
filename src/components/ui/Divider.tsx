@@ -19,5 +19,5 @@ export function Divider({ className = "", spacing = "md" }: DividerProps) {
     }
   };
 
-  return <View className={`w-full h-[1px] bg-slate-800 ${getMargin()} ${className}`} />;
+  return <View className={`w-full h-[1px] bg-ditto-outline/10 ${getMargin()} ${className}`} />;
 }

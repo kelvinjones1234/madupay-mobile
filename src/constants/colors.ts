@@ -1,40 +1,63 @@
 /**
- * MaduPay Mobile Brand & UI Color Palette
+ * MaduPay Mobile Brand & UI Color Palette - Ditto Design System
  */
 export const Colors = {
   primary: {
-    50: "#EEF2FF",
-    100: "#E0E7FF",
-    400: "#818CF8",
-    500: "#6366F1",
-    600: "#4F46E5",
-    700: "#4338CA",
+    50: "#FFFBEB",
+    100: "#FEF3C7",
+    400: "#FBBF24",
+    500: "#F5C518",
+    600: "#EAB308",
+    700: "#CA8A04",
+  },
+  ditto: {
+    canvas: "#F9FBF2",
+    meadow: "#EFF2E5",
+    meadowHigh: "#E2E7CF",
+    ink: "#221A50",
+    nightInk: "#130E30",
+    paper: "#F2F1EC",
+    gold: "#F5C518",
+    goldDark: "#EDBE00",
+    slate: "#5F5C6E",
+    outline: "rgba(34, 26, 80, 0.12)",
+    inputBg: "#FFFFFF",
+    moss: "#59E25D",
+    error: "#BA1A1A",
+  },
+  light: {
+    background: "#F9FBF2",
+    card: "#EFF2E5",
+    cardElevated: "#E2E7CF",
+    border: "rgba(34, 26, 80, 0.12)",
+    borderSubtle: "rgba(34, 26, 80, 0.06)",
   },
   dark: {
-    background: "#0F172A", // Slate 900
-    card: "#1E293B",       // Slate 800
-    cardElevated: "#334155", // Slate 700
-    border: "#334155",
-    borderSubtle: "#1E293B",
+    background: "#121214",
+    card: "#1B1B1F",
+    cardElevated: "#26262B",
+    border: "rgba(242, 241, 236, 0.15)",
+    borderSubtle: "rgba(242, 241, 236, 0.08)",
   },
   text: {
-    primary: "#FFFFFF",
-    secondary: "#94A3B8", // Slate 400
-    muted: "#64748B",     // Slate 500
-    inverse: "#0F172A",
+    primary: "#221A50",
+    secondary: "#5F5C6E",
+    muted: "#8E8B99",
+    inverse: "#F2F1EC",
+    paper: "#F2F1EC",
   },
   status: {
-    success: "#10B981", // Emerald 500
+    success: "#10B981",
     successLight: "#34D399",
-    successBg: "rgba(16, 185, 129, 0.15)",
-    warning: "#F59E0B", // Amber 500
+    successBg: "rgba(16, 185, 129, 0.12)",
+    warning: "#F59E0B",
     warningLight: "#FBBF24",
-    warningBg: "rgba(245, 158, 11, 0.15)",
-    error: "#F43F5E",   // Rose 500
+    warningBg: "rgba(245, 158, 11, 0.12)",
+    error: "#BA1A1A",
     errorLight: "#FB7185",
-    errorBg: "rgba(244, 63, 94, 0.15)",
-    info: "#0EA5E9",    // Sky 500
-    infoLight: "#38BDF8",
-    infoBg: "rgba(14, 165, 233, 0.15)",
+    errorBg: "rgba(186, 26, 26, 0.10)",
+    info: "#221A50",
+    infoLight: "#4A3F8C",
+    infoBg: "rgba(34, 26, 80, 0.08)",
   },
 } as const;

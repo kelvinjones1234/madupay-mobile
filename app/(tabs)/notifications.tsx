@@ -13,6 +13,7 @@ import { Header } from "../../src/components/Header";
 import { useNotifications, useMarkNotificationRead } from "../../src/hooks/useNotifications";
 import { NotificationItem } from "../../src/types/notifications";
 import { formatDate } from "../../src/utils/formatters";
+import { colors } from "../../src/theme/colors";
 
 export default function NotificationsScreen() {
   const router = useRouter();
@@ -32,23 +33,23 @@ export default function NotificationsScreen() {
     return (
       <TouchableOpacity
         onPress={() => handleNotificationPress(item)}
-        activeOpacity={0.7}
-        className={`p-4 rounded-2xl border mb-3 flex-row items-start ${
+        activeOpacity={0.75}
+        className={`p-4 rounded-[20px] border mb-3 flex-row items-start ${
           item.isRead
-            ? "bg-slate-800/40 border-slate-700/40"
-            : "bg-slate-800/90 border-indigo-500/40 shadow-sm"
+            ? "bg-ditto-meadow border-ditto-outline/10"
+            : "bg-white border-ditto-outline/20 shadow-xs"
         }`}
       >
         {/* Icon */}
         <View
-          className={`w-10 h-10 rounded-xl items-center justify-center mr-3 mt-0.5 ${
-            item.isRead ? "bg-slate-700/50" : "bg-indigo-600/20"
+          className={`w-10 h-10 rounded-full items-center justify-center mr-3 mt-0.5 ${
+            item.isRead ? "bg-ditto-meadowHigh" : "bg-ditto-gold"
           }`}
         >
           <Ionicons
             name={item.isRead ? "notifications-outline" : "notifications"}
             size={20}
-            color={item.isRead ? "#94A3B8" : "#818CF8"}
+            color={item.isRead ? colors.ditto.slate : colors.ditto.ink}
           />
         </View>
 
@@ -57,22 +58,22 @@ export default function NotificationsScreen() {
           <View className="flex-row items-center justify-between mb-1">
             <Text
               className={`text-sm font-bold flex-1 mr-2 ${
-                item.isRead ? "text-slate-300" : "text-white"
+                item.isRead ? "text-ditto-slate" : "text-ditto-ink"
               }`}
               numberOfLines={1}
             >
               {item.title}
             </Text>
             {!item.isRead && (
-              <View className="w-2 h-2 rounded-full bg-indigo-500" />
+              <View className="w-2.5 h-2.5 rounded-full bg-ditto-gold" />
             )}
           </View>
 
-          <Text className="text-slate-400 text-xs leading-5 mb-2">
+          <Text className="text-ditto-slate text-xs leading-5 mb-2 font-medium">
             {item.message}
           </Text>
 
-          <Text className="text-slate-500 text-[10px] font-medium">
+          <Text className="text-ditto-slate/70 text-[10px] font-medium">
             {formatDate(item.createdAt)}
           </Text>
         </View>
@@ -87,8 +88,8 @@ export default function NotificationsScreen() {
         showBack
         rightAction={
           unreadCount > 0 ? (
-            <View className="bg-indigo-500/20 border border-indigo-500/30 px-2 py-0.5 rounded-full">
-              <Text className="text-indigo-400 text-xs font-bold">
+            <View className="bg-ditto-gold px-2.5 py-0.5 rounded-full">
+              <Text className="text-ditto-ink text-xs font-bold">
                 {unreadCount} Unread
               </Text>
             </View>
@@ -97,17 +98,17 @@ export default function NotificationsScreen() {
       />
 
       {isLoading ? (
-        <View className="flex-1 items-center justify-center">
-          <ActivityIndicator size="large" color="#818CF8" />
-          <Text className="text-slate-400 text-xs mt-3">Loading notifications...</Text>
+        <View className="flex-1 items-center justify-center py-16">
+          <ActivityIndicator size="large" color={colors.ditto.ink} />
+          <Text className="text-ditto-slate text-xs mt-3 font-medium">Loading notifications...</Text>
         </View>
       ) : notifications.length === 0 ? (
         <View className="flex-1 items-center justify-center py-20 px-4">
-          <View className="w-16 h-16 rounded-full bg-slate-800 border border-slate-700 items-center justify-center mb-3">
-            <Ionicons name="notifications-off-outline" size={30} color="#64748B" />
+          <View className="w-16 h-16 rounded-full bg-ditto-meadow border border-ditto-outline/10 items-center justify-center mb-3">
+            <Ionicons name="notifications-off-outline" size={30} color={colors.ditto.slate} />
           </View>
-          <Text className="text-white font-bold text-base mb-1">No notifications yet</Text>
-          <Text className="text-slate-400 text-xs text-center">
+          <Text className="text-ditto-ink font-bold text-base mb-1">No notifications yet</Text>
+          <Text className="text-ditto-slate text-xs text-center font-medium">
             You're all caught up! Updates regarding payments and transactions will appear here.
           </Text>
         </View>

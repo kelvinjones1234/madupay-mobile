@@ -4,9 +4,9 @@ import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { ScreenWrapper } from "../../src/components/ScreenWrapper";
 import { Header } from "../../src/components/Header";
-import { Card } from "../../src/components/Card";
 import { Button } from "../../src/components/Button";
 import { useAuth } from "../../src/hooks/useAuth";
+import { colors } from "../../src/theme/colors";
 
 export default function ProfileScreen() {
   const router = useRouter();
@@ -36,84 +36,91 @@ export default function ProfileScreen() {
         rightAction={
           <TouchableOpacity
             onPress={() => router.push("/(tabs)/settings" as any)}
-            className="w-9 h-9 rounded-full bg-slate-800/80 border border-slate-700/60 items-center justify-center"
+            className="w-9 h-9 rounded-full bg-ditto-meadow border border-ditto-outline/10 items-center justify-center"
+            activeOpacity={0.8}
           >
-            <Ionicons name="settings-outline" size={18} color="#94A3B8" />
+            <Ionicons name="settings-outline" size={18} color={colors.ditto.ink} />
           </TouchableOpacity>
         }
       />
 
       {/* User Avatar & Headline Card */}
-      <Card variant="accent" className="p-5 mb-5 items-center border border-indigo-500/40">
-        <View className="w-20 h-20 rounded-full bg-indigo-600/30 border-2 border-indigo-500/60 items-center justify-center mb-3">
-          <Text className="text-white text-2xl font-extrabold">
+      <View
+        className="rounded-[24px] p-6 mb-5 items-center overflow-hidden shadow-xs"
+        style={{ backgroundColor: colors.ditto.nightInk }}
+      >
+        <View
+          className="w-20 h-20 rounded-full items-center justify-center mb-3 shadow-xs"
+          style={{ backgroundColor: colors.ditto.gold }}
+        >
+          <Text className="text-ditto-ink text-2xl font-black">
             {user?.fullName ? user.fullName.charAt(0).toUpperCase() : "U"}
           </Text>
         </View>
 
-        <Text className="text-white text-xl font-bold mb-0.5">
+        <Text className="text-white text-xl font-extrabold mb-0.5">
           {user?.fullName || "Valued Customer"}
         </Text>
-        <Text className="text-slate-400 text-xs mb-3">{user?.email}</Text>
+        <Text className="text-ditto-paper/70 text-xs mb-3">{user?.email}</Text>
 
-        <View className="flex-row items-center space-x-2">
-          <View className="bg-indigo-500/20 border border-indigo-500/40 px-3 py-1 rounded-full mr-2">
-            <Text className="text-indigo-300 text-xs font-semibold">
+        <View className="flex-row items-center">
+          <View className="bg-white/10 px-3 py-1 rounded-full mr-2 border border-white/15">
+            <Text className="text-ditto-paper text-xs font-semibold">
               Tier {user?.kycTier ?? 1} Customer
             </Text>
           </View>
-          <View className="bg-emerald-500/20 border border-emerald-500/40 px-3 py-1 rounded-full">
-            <Text className="text-emerald-300 text-xs font-semibold">
+          <View className="bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-500/30">
+            <Text className="text-emerald-300 text-xs font-bold">
               {user?.status || "ACTIVE"}
             </Text>
           </View>
         </View>
-      </Card>
+      </View>
 
       {/* Account Details Section */}
       <View className="mb-5">
-        <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2.5 px-1">
+        <Text className="text-ditto-slate text-xs font-bold uppercase tracking-wider mb-2.5 px-1">
           Account Information
         </Text>
-        <Card className="p-4 bg-slate-800/60 border border-slate-700/50">
-          <View className="flex-row justify-between py-2 border-b border-slate-800">
-            <Text className="text-slate-400 text-xs">Customer ID</Text>
+        <View className="p-4 bg-ditto-meadow border border-ditto-outline/10 rounded-[24px]">
+          <View className="flex-row justify-between py-2 border-b border-ditto-outline/10">
+            <Text className="text-ditto-slate text-xs font-medium">Customer ID</Text>
             <TouchableOpacity
               onPress={() => user?.id && copyToClipboard("Customer ID", user.id)}
               className="flex-row items-center"
             >
-              <Text className="text-indigo-400 text-xs font-mono mr-1">
+              <Text className="text-ditto-ink text-xs font-mono font-bold mr-1">
                 {user?.id ? `${user.id.slice(0, 10)}...` : "—"}
               </Text>
-              <Ionicons name="copy-outline" size={12} color="#818CF8" />
+              <Ionicons name="copy-outline" size={12} color={colors.ditto.ink} />
             </TouchableOpacity>
           </View>
 
-          <View className="flex-row justify-between py-2 border-b border-slate-800">
-            <Text className="text-slate-400 text-xs">Phone Number</Text>
-            <Text className="text-white text-xs font-medium">{user?.phone || "—"}</Text>
+          <View className="flex-row justify-between py-2 border-b border-ditto-outline/10">
+            <Text className="text-ditto-slate text-xs font-medium">Phone Number</Text>
+            <Text className="text-ditto-ink text-xs font-bold">{user?.phone || "—"}</Text>
           </View>
 
-          <View className="flex-row justify-between py-2 border-b border-slate-800">
-            <Text className="text-slate-400 text-xs">Account Role</Text>
-            <Text className="text-white text-xs font-medium">{user?.role || "CUSTOMER"}</Text>
+          <View className="flex-row justify-between py-2 border-b border-ditto-outline/10">
+            <Text className="text-ditto-slate text-xs font-medium">Account Role</Text>
+            <Text className="text-ditto-ink text-xs font-bold">{user?.role || "CUSTOMER"}</Text>
           </View>
 
           <View className="flex-row justify-between py-2">
-            <Text className="text-slate-400 text-xs">Verification Status</Text>
-            <Text className="text-emerald-400 text-xs font-medium">
+            <Text className="text-ditto-slate text-xs font-medium">Verification Status</Text>
+            <Text className="text-emerald-700 text-xs font-bold">
               {user?.verificationStatus || "Verified"}
             </Text>
           </View>
-        </Card>
+        </View>
       </View>
 
       {/* Security & Settings */}
       <View className="mb-5">
-        <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2.5 px-1">
+        <Text className="text-ditto-slate text-xs font-bold uppercase tracking-wider mb-2.5 px-1">
           Security & Privacy
         </Text>
-        <Card className="p-2 bg-slate-800/60 border border-slate-700/50">
+        <View className="p-2 bg-ditto-meadow border border-ditto-outline/10 rounded-[24px]">
           <TouchableOpacity
             onPress={() =>
               Alert.alert(
@@ -121,15 +128,16 @@ export default function ProfileScreen() {
                 "Transaction PIN configuration is verified during high-value bill purchases."
               )
             }
-            className="flex-row items-center justify-between p-3 border-b border-slate-800"
+            className="flex-row items-center justify-between p-3 border-b border-ditto-outline/10"
+            activeOpacity={0.7}
           >
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-lg bg-indigo-500/10 items-center justify-center mr-3">
-                <Ionicons name="key-outline" size={16} color="#818CF8" />
+              <View className="w-8 h-8 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="key-outline" size={16} color={colors.ditto.ink} />
               </View>
-              <Text className="text-white text-xs font-medium">Transaction PIN</Text>
+              <Text className="text-ditto-ink text-xs font-bold">Transaction PIN</Text>
             </View>
-            <Ionicons name="chevron-forward" size={16} color="#64748B" />
+            <Ionicons name="chevron-forward" size={16} color={colors.ditto.slate} />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -139,63 +147,66 @@ export default function ProfileScreen() {
                 `Session Version: ${user?.security?.sessionVersion ?? 1}\nTokens are secured using hardware-backed SecureStore keystore.`
               )
             }
-            className="flex-row items-center justify-between p-3 border-b border-slate-800"
+            className="flex-row items-center justify-between p-3 border-b border-ditto-outline/10"
+            activeOpacity={0.7}
           >
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-lg bg-indigo-500/10 items-center justify-center mr-3">
-                <Ionicons name="shield-checkmark-outline" size={16} color="#818CF8" />
+              <View className="w-8 h-8 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="shield-checkmark-outline" size={16} color={colors.ditto.ink} />
               </View>
-              <Text className="text-white text-xs font-medium">Session & Encryption</Text>
+              <Text className="text-ditto-ink text-xs font-bold">Session & Encryption</Text>
             </View>
-            <Ionicons name="chevron-forward" size={16} color="#64748B" />
+            <Ionicons name="chevron-forward" size={16} color={colors.ditto.slate} />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => router.push("/(tabs)/settings" as any)}
             className="flex-row items-center justify-between p-3"
+            activeOpacity={0.7}
           >
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-lg bg-indigo-500/10 items-center justify-center mr-3">
-                <Ionicons name="settings-outline" size={16} color="#818CF8" />
+              <View className="w-8 h-8 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="settings-outline" size={16} color={colors.ditto.ink} />
               </View>
-              <Text className="text-white text-xs font-medium">App Settings & Biometrics</Text>
+              <Text className="text-ditto-ink text-xs font-bold">App Settings & Biometrics</Text>
             </View>
-            <Ionicons name="chevron-forward" size={16} color="#64748B" />
+            <Ionicons name="chevron-forward" size={16} color={colors.ditto.slate} />
           </TouchableOpacity>
-        </Card>
+        </View>
       </View>
 
       {/* Help & Support */}
       <View className="mb-6">
-        <Text className="text-slate-400 text-xs font-semibold uppercase tracking-wider mb-2.5 px-1">
+        <Text className="text-ditto-slate text-xs font-bold uppercase tracking-wider mb-2.5 px-1">
           Support & App Info
         </Text>
-        <Card className="p-2 bg-slate-800/60 border border-slate-700/50">
+        <View className="p-2 bg-ditto-meadow border border-ditto-outline/10 rounded-[24px]">
           <TouchableOpacity
             onPress={() =>
               Alert.alert("MaduPay Mobile Support", "Contact our customer support at support@madupay.com")
             }
-            className="flex-row items-center justify-between p-3 border-b border-slate-800"
+            className="flex-row items-center justify-between p-3 border-b border-ditto-outline/10"
+            activeOpacity={0.7}
           >
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-lg bg-indigo-500/10 items-center justify-center mr-3">
-                <Ionicons name="help-circle-outline" size={16} color="#818CF8" />
+              <View className="w-8 h-8 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="help-circle-outline" size={16} color={colors.ditto.ink} />
               </View>
-              <Text className="text-white text-xs font-medium">Customer Support</Text>
+              <Text className="text-ditto-ink text-xs font-bold">Customer Support</Text>
             </View>
-            <Ionicons name="chevron-forward" size={16} color="#64748B" />
+            <Ionicons name="chevron-forward" size={16} color={colors.ditto.slate} />
           </TouchableOpacity>
 
           <View className="flex-row items-center justify-between p-3">
             <View className="flex-row items-center">
-              <View className="w-8 h-8 rounded-lg bg-indigo-500/10 items-center justify-center mr-3">
-                <Ionicons name="phone-portrait-outline" size={16} color="#818CF8" />
+              <View className="w-8 h-8 rounded-full bg-ditto-meadowHigh items-center justify-center mr-3">
+                <Ionicons name="phone-portrait-outline" size={16} color={colors.ditto.ink} />
               </View>
-              <Text className="text-white text-xs font-medium">Version</Text>
+              <Text className="text-ditto-ink text-xs font-bold">Version</Text>
             </View>
-            <Text className="text-slate-400 text-xs font-mono">1.0.0 (Production Build)</Text>
+            <Text className="text-ditto-slate text-xs font-mono font-medium">1.0.0 (Production Build)</Text>
           </View>
-        </Card>
+        </View>
       </View>
 
       {/* Logout Action */}

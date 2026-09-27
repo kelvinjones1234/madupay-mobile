@@ -4,6 +4,10 @@ import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useAuth } from "../src/hooks/useAuth";
 import { ScreenWrapper } from "../src/components/ScreenWrapper";
+import { colors } from "../src/theme/colors";
+
+import * as SecureStore from "expo-secure-store";
+import { ONBOARDING_STORAGE_KEY } from "./(auth)/onboarding";
 
 export default function SplashScreen() {
   const router = useRouter();
@@ -17,11 +21,20 @@ export default function SplashScreen() {
     if (!isInitialized) return;
 
     // Small delay to provide smooth splash transition
-    const timer = setTimeout(() => {
+    const timer = setTimeout(async () => {
       if (isAuthenticated) {
         router.replace("/(tabs)");
       } else {
-        router.replace("/(auth)/welcome");
+        try {
+          const hasSeen = await SecureStore.getItemAsync(ONBOARDING_STORAGE_KEY);
+          if (hasSeen === "true") {
+            router.replace("/(auth)/login");
+          } else {
+            router.replace("/(auth)/onboarding");
+          }
+        } catch {
+          router.replace("/(auth)/onboarding");
+        }
       }
     }, 400);
 
@@ -34,31 +47,34 @@ export default function SplashScreen() {
 
       {/* Center Branding */}
       <View className="items-center">
-        <View className="w-20 h-20 rounded-3xl bg-indigo-600/20 border-2 border-indigo-500/50 items-center justify-center mb-5 shadow-lg shadow-indigo-500/20">
-          <Ionicons name="wallet" size={40} color="#818CF8" />
+        <View
+          className="w-20 h-20 rounded-full items-center justify-center mb-5 shadow-xs"
+          style={{ backgroundColor: colors.ditto.nightInk }}
+        >
+          <Ionicons name="wallet" size={38} color={colors.ditto.gold} />
         </View>
 
-        <Text className="text-4xl font-black text-white tracking-tight">
-          Madu<Text className="text-indigo-400">Pay</Text>
+        <Text className="text-4xl font-extrabold text-ditto-ink tracking-tight">
+          Madu<Text style={{ color: colors.ditto.gold }}>Pay</Text>
         </Text>
-        <Text className="text-slate-400 text-sm mt-1.5 font-medium tracking-wide">
+        <Text className="text-ditto-slate text-sm mt-1.5 font-medium tracking-wide">
           Fast, Reliable Payments & Virtual Wallets
         </Text>
 
         <View className="mt-8">
-          <ActivityIndicator size="small" color="#818CF8" />
+          <ActivityIndicator size="small" color={colors.ditto.ink} />
         </View>
       </View>
 
       {/* Bottom Security Assurance */}
       <View className="items-center">
-        <View className="flex-row items-center bg-slate-800/60 border border-slate-700/50 px-3 py-1.5 rounded-full">
-          <Ionicons name="shield-checkmark" size={14} color="#10B981" />
-          <Text className="text-slate-400 text-xs font-medium ml-1.5">
+        <View className="flex-row items-center bg-ditto-meadow border border-ditto-outline/10 px-3.5 py-1.5 rounded-full">
+          <Ionicons name="shield-checkmark" size={14} color="#059669" />
+          <Text className="text-ditto-ink text-xs font-semibold ml-1.5">
             Bank-grade Secure Encryption
           </Text>
         </View>
-        <Text className="text-slate-600 text-[10px] mt-2 font-mono">
+        <Text className="text-ditto-slate text-[10px] mt-2 font-medium">
           v1.0.0 • Customer Mobile Client
         </Text>
       </View>

@@ -1,12 +1,13 @@
 import React from "react";
 import { Stack } from "expo-router";
+import { colors } from "../../../src/theme/colors";
 
 export default function BillsStackLayout() {
   return (
     <Stack
       screenOptions={{
         headerShown: false,
-        contentStyle: { backgroundColor: "#0F172A" },
+        contentStyle: { backgroundColor: colors.ditto.canvas },
         animation: "slide_from_right",
       }}
     >
